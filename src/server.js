@@ -1,12 +1,11 @@
+require('dotenv').config();
 const app =require("./app")
 const connectDB = require("./config/dbConfig");
-require('dotenv').config();
 
 connectDB();
 
 
 
-app.listen(5000,()=>{
-    console.log("server çalsıtı");
-    
+app.listen(process.env.PORT,()=>{
+    console.log(`Server ${process.env.PORTPORT} portunda çalısıyor.`);
 })

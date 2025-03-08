@@ -1,6 +1,10 @@
 const express = require('express');
 const app = express();
 
+// ROUTES REQIRE
+const userRoutes =require("./routes/userRoutes");
 
-app.get('/', (req, res) => res.send('Hello World!'));
+//ROUTE 
+app.use("/api/users",userRoutes);
+
 module.exports=app;
