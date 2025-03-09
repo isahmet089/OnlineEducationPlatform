@@ -1,1 +1,14 @@
 09.03.2025	 23.18.53	dbdbf062-71c8-47e2-9688-e0b687ffe983	POST	/auth/login	undefined
+09.03.2025	 23.43.00	4d50818f-c307-4b7d-8bca-4c8123c8cfd1	POST	/auth/register	undefined
+09.03.2025	 23.43.27	6d451993-5a9a-495d-8413-857edbc3037a	POST	/auth/register	undefined
+09.03.2025	 23.43.47	03d100bd-032d-49af-9a1b-2327ac5d944c	POST	/auth/register	undefined
+09.03.2025	 23.44.04	737db976-9b37-43bb-9a4b-36345413ad10	GET	/api/users	undefined
+09.03.2025	 23.46.59	9e979044-86b7-4b75-96bb-83b201f0ff42	GET	/api/users	undefined
+09.03.2025	 23.47.06	9cae772a-03ca-4892-9bfa-527c02dcf3f3	DELETE	/api/users/67cdfd83abdbaf3b49413a92	undefined
+09.03.2025	 23.47.14	9ac80725-62f8-4b02-897c-364b4b33c397	POST	/auth/register	undefined
+10.03.2025	 01.14.49	3b5b646c-ed7f-44d3-b4d5-5707951d8b32	POST	/api/email/send-verification	undefined
+10.03.2025	 01.15.30	7140cabe-2e80-4937-90ca-ccd4b28de060	POST	/api/email/send-verification	undefined
+10.03.2025	 01.18.18	52a3b3e8-9e73-433e-8c4e-d13a437cd375	POST	/api/email/verify-email	undefined
+10.03.2025	 01.37.49	422eddad-39b3-4996-9c93-b6fa81fc9dec	POST	/api/email/verify-email	undefined
+10.03.2025	 01.37.56	b7640d5d-9229-4ac3-b36f-0dd4e19c1296	POST	/auth/login	undefined
+10.03.2025	 01.37.59	8ddc6d62-e12b-41a5-bdc8-41502e4ed9aa	POST	/api/email/send-verification	undefined

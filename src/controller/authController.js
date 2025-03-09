@@ -1,6 +1,8 @@
 const User = require("../model/User");
 const jwt = require("../middleware/jwt");
 const RefreshToken = require('../model/RefreshToken');
+const {sendEmail} =require("../utils/sendEmail");
+
 
 const login = async (req, res) => {
   try {
@@ -43,6 +45,7 @@ const register = async (req, res) => {
     });
     await user.save();
     jwt.generateToken(user, res);
+    await sendEmail(firstName,email);
     res.status(201).json({ message: "Kayıt Başarılı!", user });
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -59,9 +62,8 @@ const logout = async (req, res) => {
     } catch (error) {
       res.status(400).json({ message: error.message });
     }
-  };
-
-// ✅ Access Token Yenileme
+};
+// Access Token Yenileme
 const refreshAccessToken = async (req, res,next) => {
     try {
       const refreshToken = req.cookies.refreshToken;
