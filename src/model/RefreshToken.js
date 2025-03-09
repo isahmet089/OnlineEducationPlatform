@@ -22,7 +22,7 @@ const refreshTokenSchema = new mongoose.Schema({
   },
 });
 
-// 🛑 TTL Index (otomatik temizleme)
+// TTL Index (otomatik temizleme)
 refreshTokenSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
 module.exports = mongoose.model("RefreshToken", refreshTokenSchema);

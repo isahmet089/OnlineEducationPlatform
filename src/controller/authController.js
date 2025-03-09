@@ -84,7 +84,8 @@ const refreshAccessToken = async (req, res,next) => {
       const newAccessToken = jwt.generateAccessToken({ _id: decoded.id });
   
       res.cookie("accessToken", newAccessToken, { httpOnly: true, maxAge: 15 * 60 * 1000 });
-  
+      req.user = await User.findById(decoded.id).select('-password');
+      console.log()
       next()
     } catch (error) {
       res.status(403).json({ message: "Refresh token geçersiz veya süresi dolmuş!" });
