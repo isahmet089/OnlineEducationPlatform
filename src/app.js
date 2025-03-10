@@ -18,6 +18,7 @@ app.use(logger);
 // ROUTES REQIRE
 const userRoutes =require("./routes/userRoutes");
 const authRoutes =require("./routes/authRoutes.js");
+const categoryRoutes =require("./routes/categoryRoutes.js");
 const emailVerificationRoutes = require("./routes/emailVerificationRoutes");
 
 
@@ -25,6 +26,7 @@ const emailVerificationRoutes = require("./routes/emailVerificationRoutes");
 app.use("/api/users",userRoutes);
 app.use("/auth",authRoutes);
 app.use("/api/email", emailVerificationRoutes);
+app.use("/api/category",categoryRoutes)
 
 app.use(errorHandler);
 

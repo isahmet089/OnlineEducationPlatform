@@ -63,7 +63,7 @@ const logout = async (req, res) => {
       res.status(400).json({ message: error.message });
     }
 };
-// Access Token Yenileme
+// Access Token Yenileme şuanlık bir işe yarmıyor
 const refreshAccessToken = async (req, res,next) => {
     try {
       const refreshToken = req.cookies.refreshToken;
