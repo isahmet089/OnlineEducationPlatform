@@ -35,9 +35,9 @@ const verifyUser = async (req, res, next) => {
   try {
     const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
     req.user = await User.findById(decoded.id).select("-password");
-    next();
+    return next();
   } catch (error) {
-    res.status(401).json({ message: "Geçersiz veya süresi dolmuş token1!",message2: error.message });
+    res.status(401).json({ message: "Geçersiz veya süresi dolmuş token1!",message: error.message });
   }
 };
 //  Rol Kontrolü (Sadece belirli roller erişebilir)

@@ -1,7 +1,6 @@
 const Course = require("../model/Course");
 const User = require("../model/User");
 
-
 const getCourse = async (req, res) => {
     try {
         const courses = await Course.find()
@@ -41,6 +40,7 @@ const updateCourse =async(req,res)=>{
         if(!course) return res.status(404).json({message : "kurs bulunamadı!"});
         if(title) course.title = title;
         if(description) course.description = description;
+        await course.save();    
         res.status(200).json({message :"Başarıyla güncellendi", course});
     } catch (error) {
         res.status(500).json({message :error.message});
