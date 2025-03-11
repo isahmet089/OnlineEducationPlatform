@@ -76,3 +76,8 @@
 10.03.2025	 03.16.25	4e637327-7fae-47ee-9ccf-318aeef70146	DELETE	/api/users/67ccd6e1d1652d8421667c41	undefined
 10.03.2025	 03.16.33	53b21c4f-5329-4d88-8f3d-2df1f111eb86	POST	/api/users/	undefined
 10.03.2025	 03.16.41	f5170c29-5de7-41a4-9297-9df05a069504	POST	/auth/logout	undefined
+11.03.2025	 18.45.48	8ad81382-f778-4880-8ce6-c9448474378d	GET	/api/course/	undefined
+11.03.2025	 18.46.01	fd778b78-cc39-436b-aabc-ce0cd88d7d32	GET	/api/users	undefined
+11.03.2025	 18.46.11	7da08413-66b0-423f-93e8-12f5db518da3	POST	/auth/login	undefined
+11.03.2025	 18.46.15	fef4aba4-e5be-4710-8f49-46c69f67ba5e	GET	/api/users	undefined
+11.03.2025	 18.52.39	e709eda8-b11f-42ae-81bf-6fe88e6789da	GET	/api/course/	undefined
