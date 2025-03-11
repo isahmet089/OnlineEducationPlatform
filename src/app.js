@@ -21,7 +21,7 @@ const authRoutes =require("./routes/authRoutes.js");
 const categoryRoutes =require("./routes/categoryRoutes.js");
 const emailVerificationRoutes = require("./routes/emailVerificationRoutes");
 const courseRoutes =require("./routes/courseRoutes.js");
-
+const reviewRoutes =require("./routes/reviewRoutes.js");
 
 
 //ROUTE 
@@ -30,6 +30,7 @@ app.use("/auth",authRoutes);
 app.use("/api/email", emailVerificationRoutes);
 app.use("/api/category",categoryRoutes);
 app.use("/api/course",courseRoutes);
+app.use("/api/review",reviewRoutes);
 
 app.use(errorHandler);
 

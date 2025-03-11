@@ -27,7 +27,7 @@ const addCourse =async (req,res)=>{
             instructor:id
         });
         await addCourse.save();
-        res.status(200).json({message : "Başarılı bir şekilde kurs eklendi!"},addCourse);
+        res.status(200).json({message : "Başarılı bir şekilde kurs eklendi!",addCourse});
     } catch (error) {
         res.status(500).json({message : error.message})
     }

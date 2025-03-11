@@ -37,7 +37,8 @@ const verifyUser = async (req, res, next) => {
     req.user = await User.findById(decoded.id).select("-password");
     return next();
   } catch (error) {
-    res.status(401).json({ message: "Geçersiz veya süresi dolmuş token1!",message: error.message });
+    return res.status(401).json({ message: "Geçersiz veya süresi dolmuş token1!",message: error.message });
+    next();
   }
 };
 //  Rol Kontrolü (Sadece belirli roller erişebilir)
