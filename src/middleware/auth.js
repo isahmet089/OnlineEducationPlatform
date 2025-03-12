@@ -38,7 +38,7 @@ const verifyUser = async (req, res, next) => {
     return next();
   } catch (error) {
     return res.status(401).json({ message: "Geçersiz veya süresi dolmuş token1!",message: error.message });
-    next();
+    
   }
 };
 //  Rol Kontrolü (Sadece belirli roller erişebilir)

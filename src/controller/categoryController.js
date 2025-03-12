@@ -25,7 +25,6 @@ const addCategory = async(req,res)=>{
 };
 const deleteCategory = async(req,res)=>{
     try {
-        const {id}= req.params;
         const deleteCategory = await Category.findByIdAndDelete(id);
         if(!deleteCategory) return res.status(400).json({message : "böyle  bir kadegori yok!"})
         res.status(200).json({message: "kadegori başarılı bir şekilde silindi",deleteCategory});

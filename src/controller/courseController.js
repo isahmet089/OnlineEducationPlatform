@@ -1,8 +1,10 @@
 const Course = require("../model/Course");
 const User = require("../model/User");
 
-const getCourse = async (req, res) => {
+const getCourse = async (req, res) => { 
     try {
+        const userId = req.user;
+        
         const courses = await Course.find()
             .populate("category", "name") 
             .populate("instructor", "name email"); 
@@ -16,6 +18,9 @@ const getCourse = async (req, res) => {
 };
 const addCourse =async (req,res)=>{
     try {
+        const userId = req.user.id;
+        console.log(userId);
+        
         const {title,description,category} = req.body;
         const {id} = req.params;
         const instructor = await User.findById(id)

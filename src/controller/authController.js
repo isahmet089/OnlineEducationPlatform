@@ -90,7 +90,7 @@ const refreshAccessToken = async (req, res,next) => {
       console.log()
       next()
     } catch (error) {
-      res.status(403).json({ message: "Refresh token geçersiz veya süresi dolmuş!" });
+      return res.status(403).json({ message: "Refresh token geçersiz veya süresi dolmuş!" });
     }
   };
 module.exports = {
