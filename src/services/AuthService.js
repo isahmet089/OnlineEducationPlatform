@@ -20,16 +20,22 @@ class AuthService {
     const refreshToken = jwt.generateRefreshToken(user);
 
     // Refresh Token’ı veritabanına kaydet
-    await new this.refreshTokenModel({ userId: user._id, token: refreshToken }).save();
+    const existingRefreshToken = await this.refreshTokenModel.findOne({ userId: user._id });
+    if (existingRefreshToken) {
+      existingRefreshToken.token = refreshToken;
+      await existingRefreshToken.save();
+    } else {
+      await new this.refreshTokenModel({ userId: user._id, token: refreshToken }).save();
+    }
 
     return { accessToken, refreshToken, user };
   }
 
   async register(firstName, lastName, email, password, role) {
     if (role === "admin") {
-      throw new Error("Admin oluşturma yetkiniz yok!");
+        throw new Error("Yönetici hesabı oluşturma yetkiniz bulunmamaktadır.");
     }
-    
+
     const user = new this.userModel({
       firstName,
       lastName,
@@ -46,7 +52,7 @@ class AuthService {
 
   async logout(refreshToken) {
     await this.refreshTokenModel.deleteOne({ token: refreshToken });
-    return { message: "Çıkış başarılı!" };
+    return { message: "Başarıyla çıkış yapıldı!" };
   }
 }
 
