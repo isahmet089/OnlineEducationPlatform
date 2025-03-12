@@ -1,68 +1,97 @@
 const User = require("../model/User");
 const jwt = require("../middleware/jwt");
 const RefreshToken = require('../model/RefreshToken');
-const {sendEmail} =require("../utils/sendEmail");
+const AuthService = require("../services/AuthService");
 
 
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
-
-    if (!user || !await user.comparePassword(password)) {
-        return res.status(401).json({ message: "Geçersiz email veya şifre!" });
-      }
-    
-
-    // ✅ Yeni Access Token ve Refresh Token oluştur
-    const accessToken = jwt.generateAccessToken(user);
-    const refreshToken = jwt.generateRefreshToken(user);
-    //Refresh Token’ı veritabanına kaydet
-    await new RefreshToken({ userId: user._id, token: refreshToken }).save();
+    const { accessToken, refreshToken, user } = await AuthService.login(email, password);
 
     res.cookie("accessToken", accessToken, { httpOnly: true, maxAge: 15 * 60 * 1000 });
     res.cookie("refreshToken", refreshToken, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 });
 
-    res.json({ message: "Giriş başarılı!", accessToken, refreshToken});
+    res.status(200).json({ message: "Giriş başarılı!", accessToken, refreshToken, user });
   } catch (error) {
-    res.status(500).json(error);
+    res.status(401).json({ message: error.message });
   }
 };
+
 const register = async (req, res) => {
   try {
     const { firstName, lastName, email, password, role } = req.body;
-    if (role === "admin") {
-      return res
-        .status(403)
-        .json({ message: "Admin  Oluşturma Yetkiniz yok!" });
-    }
-    const user = new User({
-      firstName,
-      lastName,
-      email,
-      password,
-      role,
-    });
-    await user.save();
-    jwt.generateToken(user, res);
-    await sendEmail(firstName,email);
+    const user = await AuthService.register(firstName, lastName, email, password, role);
+
     res.status(201).json({ message: "Kayıt Başarılı!", user });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
+
 const logout = async (req, res) => {
-    try {
-      await RefreshToken.deleteOne({ token: req.cookies.refreshToken });
-  
-      res.clearCookie("accessToken");
-      res.clearCookie("refreshToken");
-  
-      res.status(200).json({ message: "Çıkış başarılı!" });
-    } catch (error) {
-      res.status(400).json({ message: error.message });
-    }
+  try {
+    await AuthService.logout(req.cookies.refreshToken);
+    
+    res.clearCookie("accessToken");
+    res.clearCookie("refreshToken");  
+
+    res.status(200).json({ message: "Çıkış başarılı!" });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 };
+
+// const login = async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
+//     const user = await User.findOne({ email });
+
+//     if (!user || !await user.comparePassword(password)) {
+//         return res.status(401).json({ message: "Geçersiz email veya şifre!" });
+//       }
+    
+
+//     //  Yeni Access Token ve Refresh Token oluştur
+//     const accessToken = jwt.generateAccessToken(user);
+//     const refreshToken = jwt.generateRefreshToken(user);
+//     //Refresh Token’ı veritabanına kaydet
+//     await new RefreshToken({ userId: user._id, token: refreshToken }).save();
+
+//     res.cookie("accessToken", accessToken, { httpOnly: true, maxAge: 15 * 60 * 1000 });
+//     res.cookie("refreshToken", refreshToken, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 });
+
+//     res.json({ message: "Giriş başarılı!", accessToken, refreshToken});
+//   } catch (error) {
+//     res.status(500).json(error);
+//   }
+// };
+
+
+// const register = async (req, res) => {
+//   try {
+//     const { firstName, lastName, email, password, role } = req.body;
+//     if (role === "admin") {
+//       return res
+//         .status(403)
+//         .json({ message: "Admin  Oluşturma Yetkiniz yok!" });
+//     }
+//     const user = new User({
+//       firstName,
+//       lastName,
+//       email,
+//       password,
+//       role,
+//     });
+//     await user.save();
+//     jwt.generateToken(user, res);
+//     await sendEmail(firstName,email);
+//     res.status(201).json({ message: "Kayıt Başarılı!", user });
+//   } catch (error) {
+//     res.status(400).json({ message: error.message });
+//   }
+// };
+
 // Access Token Yenileme şuanlık bir işe yarmıyor
 const refreshAccessToken = async (req, res,next) => {
     try {
@@ -94,8 +123,8 @@ const refreshAccessToken = async (req, res,next) => {
     }
   };
 module.exports = {
-  login,
-  register,
   logout,
-  refreshAccessToken
+  refreshAccessToken,
+  login,
+  register
 };
