@@ -22,6 +22,7 @@ const categoryRoutes =require("./routes/categoryRoutes.js");
 const emailVerificationRoutes = require("./routes/emailVerificationRoutes");
 const courseRoutes =require("./routes/courseRoutes.js");
 const reviewRoutes =require("./routes/reviewRoutes.js");
+const lessonRoutes =require("./routes/lessonRoutes.js");
 
 
 //ROUTE 
@@ -31,6 +32,7 @@ app.use("/api/email", emailVerificationRoutes);
 app.use("/api/category",categoryRoutes);
 app.use("/api/course",courseRoutes);
 app.use("/api/review",reviewRoutes);
+app.use("/api/lesson",lessonRoutes);
 
 app.use(errorHandler);
 

@@ -205,3 +205,15 @@
 12.03.2025	 00.50.58	1bd5e3de-9c30-44f3-baee-0f6b50b6076c	GET	/api/course/	undefined
 12.03.2025	 00.51.23	3b019f57-3246-44ea-a4da-b6cdafe4b5e7	DELETE	/api/review/	undefined
 12.03.2025	 00.51.29	f40477f7-ff0c-41d2-8214-739c5837cd04	GET	/api/course/	undefined
+12.03.2025	 03.48.10	0120e8fc-5fad-4bd5-836c-300e1da6441a	POST	/auth/login	undefined
+12.03.2025	 04.14.39	29a7c536-eb30-49ec-bd0e-c7e5a52d6552	GET	/api/course/	undefined
+12.03.2025	 04.14.47	f4659eab-4bfa-4bb8-8812-ecb41d7440b1	POST	/api/lesson/	undefined
+12.03.2025	 04.15.39	06d53790-1e04-455a-bfa9-f9ad997701cb	POST	/api/lesson/	undefined
+12.03.2025	 04.16.40	b205c171-4ae4-4be8-8901-169e47ce68f9	POST	/api/lesson/	undefined
+12.03.2025	 04.17.33	5d2fff54-d26d-4ed1-a3cc-6f06f1ccb7a3	POST	/api/lesson/	undefined
+12.03.2025	 04.23.16	8cff2314-c413-4e5e-be0a-737eb954c4a0	GET	/api/lesson/	undefined
+12.03.2025	 04.24.15	7c0e8aff-1623-4a34-bced-6d2da6fe69bd	GET	/api/lesson/	undefined
+12.03.2025	 04.24.27	a8cf9d18-7fb0-42ee-9baa-7fbe2be959e6	GET	/api/course/	undefined
+12.03.2025	 04.31.05	e3f7ffc8-bca0-4e6a-93a0-e9e455b89289	GET	/api/lesson/	undefined
+12.03.2025	 04.31.11	53e67f50-b248-4b20-a3bf-f6e0523f332b	DELETE	/api/lesson/	undefined
+12.03.2025	 04.31.26	9e34465e-625c-4868-a6e7-5df73d003989	DELETE	/api/lesson/	undefined
