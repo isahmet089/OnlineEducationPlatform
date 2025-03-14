@@ -40,9 +40,22 @@ const updateCategory = async (req, res) => {
     }
 };
 
+const getSlugCategory = async (req, res) => {
+    try {
+        const { categorySlug } = req.params;
+        const slugCategori = await CategoryService.getOneSlugCategori(categorySlug);
+        res.status(200).json(slugCategori);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+
 module.exports = {
     getCategory,
     addCategory,
     deleteCategory,
-    updateCategory
+    updateCategory,
+    getSlugCategory
 };

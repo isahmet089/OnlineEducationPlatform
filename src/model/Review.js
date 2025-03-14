@@ -60,4 +60,6 @@ reviewSchema.post("remove", async function () {
   await this.constructor.updateCourseRating(this.course); // `Review` modelindeki fonksiyon çağrılıyor
   await Course.findByIdAndUpdate(this.course, { $pull: { reviews: this._id } });
 });
+
+
 module.exports = mongoose.model('Review', reviewSchema);

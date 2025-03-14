@@ -11,6 +11,15 @@ const getReview = async (req,res)=>{
         res.status(500).json({message : error.message});
     }
 };
+const getReviewId = async (req,res)=>{
+  try {
+      const {id} = req.params;
+      const reviews = await Review.findOne({_id : id});
+      res.status(200).json({message : reviews});
+  } catch (error) {
+      res.status(500).json({message : error.message});
+  }
+};
 const addReview = async (req, res) => {
     try {
       const { courseId, userId, rating, comment } = req.body;
@@ -97,6 +106,7 @@ module.exports ={
     getReview,
     addReview,
     deleteReview,
-    updateReview
+    updateReview,
+    getReviewId
 }
 

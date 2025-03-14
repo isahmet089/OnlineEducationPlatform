@@ -66,9 +66,20 @@ const updateLesson = async (req, res) => {
     }
 };
 
+const getLessonSlug = async (req,res)=>{
+    try {
+        const slug =req.params
+        const lessons =await Lesson.find(slug);
+        res.status(200).json({message : "Seçili Kurs : ",lessons});
+    } catch (error) {
+        res.status(500).json({message : error.message});
+    }
+};
+
 module.exports ={
     getLesson,
     addLesson,
     deleteLesson,
-    updateLesson
+    updateLesson,
+    getLessonSlug
 }

@@ -33,6 +33,13 @@ class CategoryService {
         }
         return updateCategory;
     }
+    async getOneSlugCategori(categoriSlug) {
+        const slugCategori = await this.categoryModel.findOne(categoriSlug);
+        if (slugCategori.length === 0) {
+            throw new Error("Sistemde kayıtlı bir kategori bulunamadı.");
+        }
+        return {slugCategori};
+    }
 }
 
 module.exports= new CategoryService(Category);

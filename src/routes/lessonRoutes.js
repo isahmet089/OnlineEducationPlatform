@@ -6,6 +6,7 @@ const authorize = require("../middleware/roleAuth");
 const ROLES =require("../constants/roles");
 
 router.get("/",verifyUser,authorize(ROLES.INSTRUCTOR,ROLES.ADMIN),lessonContoller.getLesson);
+router.get("/slug/:slug",verifyUser,authorize(ROLES.INSTRUCTOR,ROLES.ADMIN,ROLES.STUDENT),lessonContoller.getLessonSlug);
 router.post("/",verifyUser,authorize(ROLES.INSTRUCTOR,ROLES.ADMIN),lessonContoller.addLesson);
 router.delete("/:id",verifyUser,authorize(ROLES.INSTRUCTOR,ROLES.ADMIN),lessonContoller.deleteLesson);
 router.put("/:id",verifyUser,authorize(ROLES.INSTRUCTOR,ROLES.ADMIN),lessonContoller.updateLesson);

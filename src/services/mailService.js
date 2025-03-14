@@ -36,7 +36,7 @@ class EmailService {
       throw error;
     }
   }
-  async rememberEmail(firstName, email, verificationCode) {
+  async rememberPassword(firstName, email, verificationCode) {
     try {
       const mailOptions = {
         from: '"ONLINE-education-platform" <tumeal@outlook.com.tr>',

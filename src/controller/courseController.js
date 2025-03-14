@@ -16,20 +16,32 @@ const getCourse = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+const getCourseSlug = async (req, res) => { 
+    try {
+        const {slug} = req.params;
+        const findSlug = await Course.findOne({slug});
+        console.log(findSlug)
+        const userId = req.user;
+        const courses = await Course.find()
+            .populate("category", "name") 
+            .populate("instructor", "name email"); 
+        if (courses.length === 0) {
+            return res.status(404).json({ message: "Kurs bulunamadı!" });
+        }
+        res.status(200).json({ courses });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 const addCourse =async (req,res)=>{
     try {
-        const userId = req.user.id;
-        console.log(userId);
-        
+        const userId = req.user._id;
         const {title,description,category} = req.body;
-        const {id} = req.params;
-        const instructor = await User.findById(id)
-        if(!instructor) return res.status(400).json({message : "Buna yetkiniz yok."})
         const addCourse = new Course({
             title:title,
             description:description,
             category:category,
-            instructor:id
+            instructor:userId
         });
         await addCourse.save();
         res.status(200).json({message : "Başarılı bir şekilde kurs eklendi!",addCourse});
@@ -67,5 +79,6 @@ module.exports = {
     getCourse,
     addCourse,
     updateCourse,
-    deleteCourse
+    deleteCourse,
+    getCourseSlug
 }

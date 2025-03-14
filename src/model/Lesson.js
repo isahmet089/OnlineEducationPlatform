@@ -1,39 +1,47 @@
-const mongoose = require('mongoose');
-const path = require('path'); // Node.js path modülü (dosya yolunu kontrol etmek için)
-const Course = require('./Course');
+const mongoose = require("mongoose");
+const path = require("path"); 
+const slugify = require("slugify");
+const Course = require("./Course");
 
-const lessonSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  content: {
-    type: String,
-    required: true,
-  },
-  course: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Course',
-    required: true,
-  },
-  file: {
-    type: String,  // Ders materyali için dosya yolunun saklanacağı alan
-    // Dosya uzantısına göre validasyon eklenebilir (örneğin sadece PDF, MP4 vs.)
-  },
-  // Ders materyali için ilgili klasör yolu (belirtilen kurs adına göre)
-  folderPath: {
-    type: String, 
-    required: true,
-    default: function() {
-      return path.join(__dirname, 'uploads', 'courses', this.course.toString(), this.title); // Dinamik olarak klasör yolu oluşturulur.
+const lessonSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true },
+    slug: { type: String, unique: true, lowercase: true },
+    content: { type: String, required: true },
+    course: { type: mongoose.Schema.Types.ObjectId, ref: "Course", required: true },
+    file: { type: String }, // Dosya yolu saklanacak
+    folderPath: {
+      type: String,
+      required: true,
+      default: function () {
+        return path.join(__dirname, "uploads", "courses", this.course.toString(), this.title);
+      },
     },
+  },
+  { timestamps: true }
+);
+
+// **Slug oluşturma middleware**
+lessonSchema.pre("save", async function (next) {
+  if (this.isModified("title") || !this.slug) {
+    let baseSlug = slugify(this.title, { lower: true, strict: true });
+
+    let slug = baseSlug;
+    let counter = 1;
+
+    while (await mongoose.model("Lesson").findOne({ slug, _id: { $ne: this._id } })) {
+      slug = `${baseSlug}-${counter++}`;
+    }
+
+    this.slug = slug;
   }
-}, { timestamps: true });
+  next();
+});
 
 // **Ders eklendiğinde Course modeline ekle**
 lessonSchema.post("save", async function (doc) {
   await Course.findByIdAndUpdate(doc.course, {
-    $addToSet: { lessons: doc._id }, // `lessons` dizisine ekler (tekrar eklemeyi önler)
+    $addToSet: { lessons: doc._id },
   });
 });
 
@@ -41,31 +49,27 @@ lessonSchema.post("save", async function (doc) {
 lessonSchema.post("findOneAndDelete", async function (doc) {
   if (doc) {
     await Course.findByIdAndUpdate(doc.course, {
-      $pull: { lessons: doc._id }, // `lessons` dizisinden çıkarır
+      $pull: { lessons: doc._id },
     });
   }
 });
 
-// **Ders güncellendiğinde bir şey yapmana gerek yok çünkü lesson ID'si değişmez.**
-// Ancak `courseId` değişirse eski kurs listesinden çıkarmak gerekebilir (ekleyelim):
+// **Eğer ders farklı bir kursa taşınırsa eski kurstan çıkarıp yeni kursa ekle**
 lessonSchema.post("findOneAndUpdate", async function (doc) {
   if (doc) {
     const oldCourseId = doc.course;
     const newCourseId = this.getUpdate().course;
 
     if (oldCourseId.toString() !== newCourseId.toString()) {
-      // Eski kurstan kaldır
-      await Course.findByIdAndUpdate(oldCourseId, {
-        $pull: { lessons: doc._id },
-      });
-
-      // Yeni kursa ekle
-      await Course.findByIdAndUpdate(newCourseId, {
-        $addToSet: { lessons: doc._id },
-      });
+      await Course.findByIdAndUpdate(oldCourseId, { $pull: { lessons: doc._id } });
+      await Course.findByIdAndUpdate(newCourseId, { $addToSet: { lessons: doc._id } });
     }
   }
 });
 
+// **Slug ile ders bulma fonksiyonu**
+lessonSchema.statics.findBySlug = function (slug) {
+  return this.findOne({ slug }).populate("course");
+};
 
-module.exports = mongoose.model('Lesson', lessonSchema);
+module.exports = mongoose.model("Lesson", lessonSchema);

@@ -10,5 +10,7 @@ router.post("/",verifyUser,authorize(ROLES.ADMIN),categoryController.addCategory
 router.delete("/:id",verifyUser,authorize(ROLES.ADMIN,ROLES.INSTRUCTOR),categoryController.deleteCategory);
 router.put("/:id",verifyUser,authorize(ROLES.ADMIN,ROLES.INSTRUCTOR),categoryController.updateCategory)
 
+router.get("/:categorySlug",verifyUser,categoryController.getCategory);
+
 
 module.exports=router;

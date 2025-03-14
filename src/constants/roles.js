@@ -1,7 +1,7 @@
-const roles ={
+const ROLES ={
     ADMIN :"admin",
     INSTRUCTOR :"instructor",
     STUDENT :"student"
 }
 
-module.exports = roles;     
+module.exports = ROLES;     
