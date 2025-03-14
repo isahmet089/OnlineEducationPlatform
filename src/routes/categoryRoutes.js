@@ -1,13 +1,14 @@
 const express =require("express");
 const router =express.Router()
-const {getCategory,deleteCategory,updateCategory,addCategory} =require("../controller/categoryController");
-const {verifyUser,authorize}=require("../middleware/auth");
+const categoryController =require("../controller/categoryController");
+const {verifyUser}=require("../middleware/auth");
+const authorize = require("../middleware/roleAuth");
+const ROLES =require("../constants/roles")
 
-
-router.get("/",getCategory);
-router.post("/",verifyUser,addCategory);
-router.delete("/:id",verifyUser,authorize('instructor', 'admin'),deleteCategory);
-router.put("/:id",verifyUser,updateCategory)
+router.get("/",verifyUser,categoryController.getCategory);
+router.post("/",verifyUser,authorize(ROLES.ADMIN),categoryController.addCategory);
+router.delete("/:id",verifyUser,authorize(ROLES.ADMIN,ROLES.INSTRUCTOR),categoryController.deleteCategory);
+router.put("/:id",verifyUser,authorize(ROLES.ADMIN,ROLES.INSTRUCTOR),categoryController.updateCategory)
 
 
 module.exports=router;
